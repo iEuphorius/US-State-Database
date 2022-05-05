@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const verifyStates = ('../middleware/verifyStates.js');
 const statesController = require('../../controllers/statesController');
 
 router.route('/')
@@ -11,4 +12,6 @@ router.route('/')
 router.route('/:stateCode')
     .get(statesController.getState);
 
+router.route('/:stateCode/funfact')
+    .post(statesController.createFunFacts);
 module.exports = router;
