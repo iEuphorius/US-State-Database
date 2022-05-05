@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
@@ -14,11 +13,6 @@ connectDB();
 
 // Cross Origin Resource Sharing
 app.use(cors());
-
-app.get('/products/:id', function (req, res, next) {
-    res.json({msg: 'This is CORS-enabled for all origins!'})
-});
-
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
 
