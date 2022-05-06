@@ -1,13 +1,13 @@
 {
-  "name": "15tut",
+  "name": "Taylor-Mynhier-Final",
   "version": "1.0.0",
-  "description": "MongoDB tutorial",
+  "description": "INF 653 Final",
   "main": "server.js",
   "scripts": {
     "start": "node server",
     "dev": "nodemon server"
   },
-  "author": "Dave Gray",
+  "author": "Taylor Mynhier",
   "license": "ISC",
   "engines": {
     "node": "14.x"
