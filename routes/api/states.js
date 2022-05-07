@@ -16,15 +16,15 @@ router.route('/:stateCode/funfact')
     .post(statesController.createFunFacts);
 
 router.route('/:stateCode/capital')
-    .get(statesController.getState);
+    .get(statesController.getStateCapital);
 
 router.route('/:stateCode/nickname')
-    .get(statesController.getState);
+    .get(statesController.getStateNickname);
 
 router.route('/:stateCode/population')
-    .get(statesController.getState);
+    .get(statesController.getStatePopulation);
 
 router.route('/:stateCode/admission')
-    .get(statesController.getState);
+    .get(statesController.getStateAdmission);
 
 module.exports = router;

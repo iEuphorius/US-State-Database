@@ -81,8 +81,45 @@ const getState = async (req, res) => {
 }
 
 const getStateCapital = async (req, res) => {
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
     
+    if (!stateObj) {
+        return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
+    }
+    res.json({"state": stateObj.state, "capital": stateObj.capital_city });
 }
+
+const getStateNickname = async (req, res) => {
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
+    
+    if (!stateObj) {
+        return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
+    }
+    res.json({"state": stateObj.state, "nickname": stateObj.nickname });
+}
+
+const getStatePopulation = async (req, res) => {
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
+    
+    if (!stateObj) {
+        return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
+    }
+    res.json({"state": stateObj.state, "population": stateObj.population });
+}
+
+const getStateAdmission = async (req, res) => {
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
+    
+    if (!stateObj) {
+        return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
+    }
+    res.json({"state": stateObj.state, "admitted": stateObj.admission_date });
+}
+
 
 const createFunFacts = async (req,res) => {
     if (!req?.body?.stateCode || !req?.body?.funFacts) {
@@ -106,5 +143,9 @@ module.exports = {
     updateState,
     deleteState,
     getState,
+    getStateCapital,
+    getStateNickname,
+    getStatePopulation,
+    getStateAdmission,
     createFunFacts
 }
