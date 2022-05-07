@@ -1,4 +1,5 @@
 const express = require('express');
+const verifyState = require('../middleware/verifyState.js');
 const app = express();
 
 
@@ -65,19 +66,27 @@ const deleteState = async (req, res) => {
     if (!state) {
         return res.status(204).json({ "message": `No state matches stateCode ${req.body.stateCode}.` });
     }
-    const result = await State.deleteOne(); //{ __stateCode: req.body._stateCode }
+    const result = await state.deleteOne(); //{ __stateCode: req.body._stateCode }
     res.json(result);
 }
 
 const getState = async (req, res) => {
     if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
-    let statesArray = JSON.parse(statesData);
-    const stateObj = statesArray.find(states => states.code === stateCode);
+    app.use(verifyState);
+    console.log(req.params.stateCode);
+    let newCode = req.params.stateCode;
+    newCode = JSON.stringify(newCode);
+    newCode = newCode.replace(':', '');
+    const stateObj = statesData.states.find(state => state.code === newCode);
     
     if (!stateObj) {
         return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
     }
     res.json(stateObj);
+}
+
+const getStateCapital = async (req, res) => {
+    
 }
 
 const createFunFacts = async (req,res) => {
@@ -87,6 +96,7 @@ const createFunFacts = async (req,res) => {
 
     try {
         const result = await State.create({
+            stateCode: req.body.stateCode,
             funFacts: req.body.funFacts
         });
 
