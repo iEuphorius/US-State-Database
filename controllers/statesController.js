@@ -72,12 +72,7 @@ const deleteState = async (req, res) => {
 
 const getState = async (req, res) => {
     if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
-    app.use(verifyState);
-    console.log(req.params.stateCode);
-    let newCode = req.params.stateCode;
-    newCode = JSON.stringify(newCode);
-    newCode = newCode.replace(':', '');
-    const stateObj = statesData.states.find(state => state.code === newCode);
+    const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
     
     if (!stateObj) {
         return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
