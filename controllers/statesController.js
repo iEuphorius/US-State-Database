@@ -27,6 +27,36 @@ const getAllStates = async (req, res) => {
     res.json(statesData.states);
 }
 
+const getAllStatesContig = async (req, res) => {
+    // const states = await State.find();
+    if (!states) return res.status(204).json({ 'message': 'No states found.' });
+    
+    let statesList;
+    statesList = statesData.filter(st => st.code != 'AK' || st.code != 'HI');
+    /*
+    statesList.forEach(state => {
+        const stateExists = mongoStates.find(st => st.stateCode === state.code);
+    })
+    */
+    
+    res.json(statesList);
+}
+
+const getAllStatesNonCon = async (req, res) => {
+    // const states = await State.find();
+    if (!states) return res.status(204).json({ 'message': 'No states found.' });
+    
+    let statesList;
+    statesList = statesData.filter(st => st.code === 'AK' || st.code === 'HI');
+    /*
+    statesList.forEach(state => {
+        const stateExists = mongoStates.find(st => st.stateCode === state.code);
+    })
+    */
+    
+    res.json(statesList);
+}
+
 const createNewState = async (req, res) => {
     if (!req?.body?.stateCode) {
         return res.status(400).json({ 'message': 'State code required' });
@@ -81,7 +111,7 @@ const getState = async (req, res) => {
 }
 
 const getStateCapital = async (req, res) => {
-    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'Invalid state abbreviation parameter' });
     const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
     
     if (!stateObj) {
@@ -91,7 +121,7 @@ const getStateCapital = async (req, res) => {
 }
 
 const getStateNickname = async (req, res) => {
-    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'Invalid state abbreviation parameter' });
     const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
     
     if (!stateObj) {
@@ -101,17 +131,17 @@ const getStateNickname = async (req, res) => {
 }
 
 const getStatePopulation = async (req, res) => {
-    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'Invalid state abbreviation parameter' });
     const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
-    
+    const statePop = stateObj.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     if (!stateObj) {
         return res.status(204).json({ "message": `No state matches stateCode ${req.params.stateCode}.` });
     }
-    res.json({"state": stateObj.state, "population": stateObj.population });
+    res.json({"state": stateObj.state, "population": statePop });
 }
 
 const getStateAdmission = async (req, res) => {
-    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'State code required.' });
+    if (!req?.params?.stateCode) return res.status(400).json({ 'message': 'Invalid state abbreviation parameter' });
     const stateObj = statesData.states.find(state => state.code === req.params.stateCode);
     
     if (!stateObj) {
@@ -123,7 +153,7 @@ const getStateAdmission = async (req, res) => {
 
 const createFunFacts = async (req,res) => {
     if (!req?.body?.stateCode || !req?.body?.funFacts) {
-        return res.status(400).json({ 'message': 'State code and fun facts are required' });
+        return res.status(400).json({ 'message': 'State funfacts value required' });
     }
 
     try {
@@ -139,6 +169,8 @@ const createFunFacts = async (req,res) => {
 }
 module.exports = {
     getAllStates,
+    getAllStatesContig,
+    getAllStatesNonCon,
     createNewState,
     updateState,
     deleteState,
