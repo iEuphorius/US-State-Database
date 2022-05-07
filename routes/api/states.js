@@ -9,6 +9,12 @@ router.route('/')
     .put(statesController.updateState)
     .delete(statesController.deleteState);
 
+router.route('/?contig=true')
+    .get(statesController.getAllStatesContig);
+
+router.route('/?contig=true')
+    .get(statesController.getAllStatesContig);
+
 router.route('/:stateCode')
     .get(statesController.getState);
 
