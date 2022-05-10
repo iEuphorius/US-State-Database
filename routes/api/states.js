@@ -19,7 +19,7 @@ router.route('/:stateCode')
     .get(statesController.getState);
 
 router.route('/:stateCode/funfact')
-    .post(statesController.createFunFacts);
+    .get(statesController.getFunfacts);
 
 router.route('/:stateCode/capital')
     .get(statesController.getStateCapital);
